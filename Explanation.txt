@@ -1,4 +1,5 @@
 The purpose of this extension is to provide internet users with disabilities an ease of usage to enhance their everyday browsing experience. Features include the following:
+
 REGULAR TOOLS:
 
  - Dyslexia Font: Improves font and spacing for almost all text on every webpage. Makes reading easier, especially for the dyslexic.
@@ -33,3 +34,9 @@ CUSTOMIZATIONS:
  - Visible Features: Allows you to change which features are visible on the main menu page.
  - Element Remover Reset: Allows you to reset all the element removal data for every webpage.
  - Reset All: Allows you to reset every customization metric.
+
+This script uses Pollinations AI for its completely free AI powered capabilities. You can find out more at https://pollinations.ai/.
+
+Languages: JavaScript, HTML, and CSS.
+Project format: Browser Extension
+Time to complete: 7.25 hours
