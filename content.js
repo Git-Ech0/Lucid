@@ -342,7 +342,7 @@
     `);
   }
 
-  // ─── AI — Pollinations (robust fallback chain) ────────────────────────────
+  // ─── AI — Pollinations (single provider) ──────────────────────────────────
   function extractOpenAIContent(content) {
     if (typeof content === 'string') return content.trim();
     if (Array.isArray(content)) {
@@ -355,60 +355,25 @@
     return '';
   }
 
-  async function pollinationsOpenAI(messages, model = 'openai') {
+  async function pollinationsChat(messages, model = 'openai') {
     const res = await fetch('https://text.pollinations.ai/openai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model, messages })
     });
-    if (!res.ok) throw new Error(`Pollinations OpenAI error (${res.status})`);
+    if (!res.ok) throw new Error(`Pollinations AI error (${res.status})`);
 
     const data = await res.json();
     const text = extractOpenAIContent(data?.choices?.[0]?.message?.content);
-    if (!text) throw new Error('Empty Pollinations OpenAI response');
-    return text;
-  }
-
-  async function pollinationsTextFallback(system, userContent) {
-    const prompt = `${system}
-
-User:
-${userContent}
-
-Return only the answer.`;
-    const res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`, {
-      method: 'GET',
-      credentials: 'omit'
-    });
-    if (!res.ok) throw new Error(`Pollinations text endpoint error (${res.status})`);
-    const text = (await res.text()).trim();
-    if (!text) throw new Error('Empty Pollinations text response');
+    if (!text) throw new Error('Empty Pollinations AI response');
     return text;
   }
 
   async function ai(system, userContent) {
-    const messages = [
+    return await pollinationsChat([
       { role: 'system', content: system },
       { role: 'user', content: userContent }
-    ];
-
-    const modelCandidates = ['openai', 'openai-fast', 'llama'];
-    const failures = [];
-
-    for (const model of modelCandidates) {
-      try {
-        return await pollinationsOpenAI(messages, model);
-      } catch (err) {
-        failures.push(`${model}: ${err.message}`);
-      }
-    }
-
-    try {
-      return await pollinationsTextFallback(system, userContent);
-    } catch (err) {
-      failures.push(`text-endpoint: ${err.message}`);
-      throw new Error(`AI unavailable. ${failures.join('; ')}`);
-    }
+    ], 'openai');
   }
 
   async function aiVision(imageUrl, prompt) {
@@ -427,19 +392,10 @@ Return only the answer.`;
       imgContent = { type:'image_url', image_url:{ url: imageUrl } };
     }
 
-    const messages = [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }];
-    const visionModels = ['openai', 'openai-fast'];
-    let lastErr = null;
-
-    for (const model of visionModels) {
-      try {
-        return await pollinationsOpenAI(messages, model);
-      } catch (err) {
-        lastErr = err;
-      }
-    }
-
-    throw new Error(`Vision AI unavailable: ${lastErr?.message || 'unknown error'}`);
+    return await pollinationsChat(
+      [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }],
+      'openai'
+    );
   }
 
   // ─── AI ON SELECTION ─────────────────────────────────────────────────────

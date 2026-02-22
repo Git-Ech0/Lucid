@@ -32,9 +32,8 @@ Lucid is a Chrome extension that lets users quickly adapt site readability, visi
 ## 🤖 AI Provider Behavior (Current)
 
 - No API key required.
-- Lucid uses **Pollinations** with an OpenAI-compatible endpoint and model fallback chain (`openai` → `openai-fast` → `llama`).
-- If those model calls fail, Lucid falls back to the plain text Pollinations endpoint.
-- Image-description uses Pollinations vision-compatible model fallback (`openai` → `openai-fast`).
+- Lucid uses **Pollinations** via the OpenAI-compatible endpoint with model `openai`.
+- Image-description also uses Pollinations with model `openai`.
 
 ## 🧩 Other capabilities
 
