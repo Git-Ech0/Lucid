@@ -1,109 +1,65 @@
-# ♿ ClearPath — Adaptive Accessibility Engine
+# ♿ Lucid — Web Accessibility Extension
 
-> AI-powered browser extension that makes *any* website accessible for people with disabilities.
+> Accessibility tools for any website, with built-in keyless AI helpers.
 
-![ClearPath Banner](https://via.placeholder.com/900x300/0f1117/6c8fff?text=ClearPath+%E2%80%94+Adaptive+Accessibility)
+Lucid is a Chrome extension that lets users quickly adapt site readability, visibility, and interaction comfort without requiring websites to implement anything.
 
-## 🎯 What It Does
+## ✨ Current Feature Set
 
-ClearPath is a Chrome extension that gives users with disabilities full control over how any website looks, reads, and feels — without needing any website to do anything special. Works everywhere, instantly.
+### Tools tab (toggle features)
 
-### Key Features
+- **Dyslexia Font** — improved letter/word spacing and line height
+- **Reading Ruler** — tracking bar that follows cursor movement
+- **Highlight Links** — stronger visual link affordances
+- **High Contrast** — high-contrast page theming
+- **Large Text** — global page text scaling
+- **Color Blind Mode** — deuteranopia/protanopia/tritanopia simulation filters
+- **Element Remover** — click elements to hide and persist removals per page
+- **Big Click Targets** — expands interactive hit areas
+- **Page Outline** — floating headings navigator
+- **Stop Animations** — suppresses transitions/animations and autoplay motion
 
-| Feature | Description |
-|---|---|
-| **Disability Profiles** | One-click presets for Dyslexia, ADHD, Low Vision, Motor, and Cognitive needs |
-| **AI Text Simplifier** | Highlight any text → free keyless AI rewrites it in plain language, in-place |
-| **Reading Ruler** | Blue highlight line that follows your mouse for tracking support |
-| **Focus Spotlight** | Dims everything except the paragraph you hover over |
-| **Read Aloud** | Select text → hear it spoken at your preferred speed |
-| **High Contrast Mode** | Boosts contrast across the entire page |
-| **Reduce Clutter** | Hides ads, sidebars, popups, and distractions |
-| **Big Click Targets** | Enlarges all buttons/links to 44px minimum (WCAG standard) |
-| **Stop Animations** | Freezes GIFs and CSS transitions |
-| **Large Text** | Scales all text from 110%–150% site-wide |
-| **Link Highlighting** | Makes all links visually distinct and easy to spot |
-| **Dyslexia Font** | Applies optimal spacing for dyslexic readers |
+### AI context-menu tools
 
----
+- **Simplify selected text**
+- **Explain selected text**
+- **Translate selected text to plain English**
+- **Read selected text aloud**
+- **Summarize current page**
+- **Describe image**
+- **Help fill form fields**
 
-## 🚀 Installation (No Build Required)
+## 🤖 AI Provider Behavior (Current)
 
-```bash
-git clone https://github.com/YOUR_USERNAME/clearpath.git
-```
+- No API key required.
+- Lucid uses **DuckDuckGo AI (`gpt-4o-mini`) as primary** for text tasks.
+- Lucid falls back to **Pollinations (`openai`)** if the primary provider fails.
+- Image-description flow currently uses the Pollinations helper path.
 
-1. Open Chrome → navigate to `chrome://extensions`
-2. Enable **Developer Mode** (top right toggle)
-3. Click **"Load unpacked"**
-4. Select the cloned `clearpath/` folder
-5. Click the ClearPath icon in your toolbar — you're live!
+## 🧩 Other capabilities
 
-**AI features are keyless:** Lucid first uses DuckDuckGo AI (GPT-4o-mini), then automatically falls back to Pollinations if needed.
+- **Per-feature keyboard shortcuts** (`Alt+Shift+<key>`) configurable in Settings
+- **Theme mode**: Dark / Light popup
+- **Feature visibility controls** to hide tools from the popup UI
+- **Global reset** for extension settings
+- **Persistent state** across tabs/pages via `chrome.storage.local`
 
----
+## 🚀 Installation
 
-## 🏗️ Architecture
+1. Clone this repository.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked** and select this project folder.
 
-```
-clearpath/
-├── manifest.json        # Extension config (Manifest V3)
-├── popup.html           # Extension UI (360px panel)
-├── popup.js             # UI logic, state management, profile system
-├── content.js           # Page modification engine (runs on every site)
-├── content.css          # Base injected styles
-├── background.js        # Service worker (lifecycle, install events)
-└── welcome.html         # First-install onboarding page
-```
+## 🏗️ Project Structure
 
-**No build tools. No npm. No bundler.** Open the folder and it works.
-
-### How the AI Simplifier Works
-
-1. User selects text on any webpage
-2. Clicks "Simplify Selected Text" in the popup
-3. `popup.js` sends a message to `content.js`
-4. `content.js` calls DuckDuckGo AI first (no API key), with Pollinations as fallback
-5. The selected text is replaced in-place with the simplified version
-6. A ✨ badge is appended — clicking it restores the original text
-
----
-
-## 🧑‍🦽 Who This Helps
-
-- **Dyslexia** (~15-20% of the population): Specialized font spacing, reading ruler, link highlighting
-- **ADHD**: Focus spotlight removes distractions, animations stopped, clean layout
-- **Low Vision**: High contrast, enlarged text, bigger click targets
-- **Motor Disabilities**: All interactive targets enlarged to 44px (WCAG 2.5.5 standard)
-- **Cognitive Disabilities**: Simplified layouts, AI-rewritten content at accessible reading levels
-- **General Reading Support**: Read-aloud, text simplification for anyone encountering complex language
-
----
-
-## 💡 Design Decisions
-
-- **No build step** — judges and users can run this in 30 seconds
-- **State persists across pages** — your settings follow you everywhere
-- **Click-to-restore** — AI changes are never permanent; one click undoes them
-- **Profiles as a starting point** — users can customize after applying a profile
-- **WCAG-informed** — big targets, contrast ratios, and text sizing follow real accessibility standards
-
----
-
-## 🔮 Future Roadmap
-
-- Voice command navigation ("scroll down", "click login")
-- Per-site profile memory
-- Screen reader integration
-- Keyboard shortcut system
-- User-shareable profile configs
-
----
+- `manifest.json` — extension metadata + permissions
+- `background.js` — context menus, startup/install lifecycle, message dispatch
+- `content.js` — page-side feature engine + AI handlers
+- `content.css` — injected base styles
+- `popup.html` / `popup.js` — extension popup UI + state controls
+- `welcome.html` — first-install landing screen
 
 ## 📄 License
 
-MIT — use it, fork it, build on it.
-
----
-
-*Built for [Hackathon Name] by [Your Name] — February 2026*
+MIT
