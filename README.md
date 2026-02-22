@@ -13,7 +13,7 @@ ClearPath is a Chrome extension that gives users with disabilities full control 
 | Feature | Description |
 |---|---|
 | **Disability Profiles** | One-click presets for Dyslexia, ADHD, Low Vision, Motor, and Cognitive needs |
-| **AI Text Simplifier** | Highlight any text → Claude rewrites it in plain language, in-place |
+| **AI Text Simplifier** | Highlight any text → free keyless AI rewrites it in plain language, in-place |
 | **Reading Ruler** | Blue highlight line that follows your mouse for tracking support |
 | **Focus Spotlight** | Dims everything except the paragraph you hover over |
 | **Read Aloud** | Select text → hear it spoken at your preferred speed |
@@ -39,7 +39,7 @@ git clone https://github.com/YOUR_USERNAME/clearpath.git
 4. Select the cloned `clearpath/` folder
 5. Click the ClearPath icon in your toolbar — you're live!
 
-**For AI features:** Add your Claude API key in the Settings tab. Get one free at [console.anthropic.com](https://console.anthropic.com).
+**AI features are keyless:** Lucid first uses DuckDuckGo AI (GPT-4o-mini), then automatically falls back to Pollinations if needed.
 
 ---
 
@@ -63,7 +63,7 @@ clearpath/
 1. User selects text on any webpage
 2. Clicks "Simplify Selected Text" in the popup
 3. `popup.js` sends a message to `content.js`
-4. `content.js` calls the Anthropic Claude API directly from the page
+4. `content.js` calls DuckDuckGo AI first (no API key), with Pollinations as fallback
 5. The selected text is replaced in-place with the simplified version
 6. A ✨ badge is appended — clicking it restores the original text
 

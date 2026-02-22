@@ -342,24 +342,82 @@
     `);
   }
 
-  // ─── AI — Pollinations with openai-large ─────────────────────────────────
-  async function ai(system, userContent) {
+  // ─── AI — DuckDuckGo (primary) + Pollinations fallback ───────────────────
+  async function getDuckDuckGoVqdToken() {
+    const res = await fetch('https://duckduckgo.com/duckchat/v1/status', {
+      method: 'GET',
+      headers: { 'x-vqd-accept': '1' },
+      credentials: 'omit'
+    });
+    if (!res.ok) throw new Error(`DuckDuckGo status error (${res.status})`);
+    const vqd = res.headers.get('x-vqd-4');
+    if (!vqd) throw new Error('DuckDuckGo token missing');
+    return vqd;
+  }
+
+  async function duckDuckGoChat(messages, model = 'gpt-4o-mini') {
+    const vqd = await getDuckDuckGoVqdToken();
+    const res = await fetch('https://duckduckgo.com/duckchat/v1/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'text/event-stream',
+        'x-vqd-4': vqd
+      },
+      credentials: 'omit',
+      body: JSON.stringify({ model, messages })
+    });
+    if (!res.ok) throw new Error(`DuckDuckGo AI error (${res.status})`);
+
+    const raw = await res.text();
+    const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    let text = '';
+
+    for (const line of lines) {
+      if (!line.startsWith('data:')) continue;
+      const payload = line.slice(5).trim();
+      if (payload === '[DONE]') break;
+      try {
+        const json = JSON.parse(payload);
+        text += json?.message || '';
+      } catch {
+        // ignore malformed server-sent events
+      }
+    }
+
+    const cleaned = text.trim();
+    if (!cleaned) throw new Error('DuckDuckGo returned empty response');
+    return cleaned;
+  }
+
+  async function pollinationsChat(messages, model = 'openai') {
     const res = await fetch('https://text.pollinations.ai/openai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'openai-large',
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user',   content: userContent }
-        ]
-      })
+      body: JSON.stringify({ model, messages })
     });
-    if (!res.ok) throw new Error(`AI error (${res.status})`);
+    if (!res.ok) throw new Error(`Pollinations error (${res.status})`);
     const data = await res.json();
     const text = (data.choices?.[0]?.message?.content || '').trim();
-    if (!text) throw new Error('Empty AI response');
+    if (!text) throw new Error('Empty Pollinations response');
     return text;
+  }
+
+  async function ai(system, userContent) {
+    const messages = [
+      { role: 'system', content: system },
+      { role: 'user', content: userContent }
+    ];
+
+    try {
+      return await duckDuckGoChat(messages, 'gpt-4o-mini');
+    } catch (primaryErr) {
+      try {
+        return await pollinationsChat(messages, 'openai');
+      } catch (fallbackErr) {
+        throw new Error(`AI unavailable. DDG: ${primaryErr.message}; Pollinations: ${fallbackErr.message}`);
+      }
+    }
   }
 
   async function aiVision(imageUrl, prompt) {
@@ -378,20 +436,10 @@
       imgContent = { type:'image_url', image_url:{ url: imageUrl } };
     }
 
-    const res = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'openai',   // vision requires base model
-        messages: [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }],
-        max_tokens: 300
-      })
-    });
-    if (!res.ok) throw new Error(`Vision error (${res.status})`);
-    const data = await res.json();
-    const text = (data.choices?.[0]?.message?.content || '').trim();
-    if (!text) throw new Error('No description returned');
-    return text;
+    return await pollinationsChat(
+      [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }],
+      'openai'
+    );
   }
 
   // ─── AI ON SELECTION ─────────────────────────────────────────────────────
