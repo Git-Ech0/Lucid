@@ -356,17 +356,40 @@
   }
 
   async function pollinationsChat(messages, model = 'openai') {
-    const res = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, messages })
-    });
-    if (!res.ok) throw new Error(`Pollinations AI error (${res.status})`);
+    const endpoints = [
+      'https://text.pollinations.ai/openai',
+      'https://text.pollinations.ai/v1/chat/completions'
+    ];
 
-    const data = await res.json();
-    const text = extractOpenAIContent(data?.choices?.[0]?.message?.content);
-    if (!text) throw new Error('Empty Pollinations AI response');
-    return text;
+    const failures = [];
+
+    for (const url of endpoints) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model, messages })
+        });
+
+        if (!res.ok) {
+          failures.push(`${url} -> HTTP ${res.status}`);
+          continue;
+        }
+
+        const data = await res.json();
+        const text = extractOpenAIContent(data?.choices?.[0]?.message?.content);
+        if (!text) {
+          failures.push(`${url} -> empty choices[0].message.content`);
+          continue;
+        }
+
+        return text;
+      } catch (err) {
+        failures.push(`${url} -> ${err.message}`);
+      }
+    }
+
+    throw new Error(`Pollinations endpoints failed: ${failures.join('; ')}`);
   }
 
   async function ai(system, userContent) {
