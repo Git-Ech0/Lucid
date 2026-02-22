@@ -343,39 +343,25 @@
   }
 
   // ─── AI — Pollinations with openai-large ─────────────────────────────────
-  async function aiVision(imageUrl, prompt) {
-  const endpoint = 'https://text.pollinations.ai/v1/chat/completions';
-  const payload = {
-    model: 'openai',
-    messages: [
-      {
-        role: 'user',
-        content: [
-          { type: 'text', text: prompt },
-          { type: 'image_url', image_url: { url: imageUrl } }
+  async function ai(system, userContent) {
+    const res = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'openai-large',
+        model: 'openai',
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user',   content: userContent }
         ]
-      }
-    ],
-    max_tokens: 300
-  };
-
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-
-  if (!res.ok) throw new Error(`Vision error (${res.status})`);
-  
-  const data = await res.json();
-  const text = data.choices?.[0]?.message?.content;
-
-  if (!text || text.includes("don't have access")) {
-    throw new Error("The AI was unable to reach this image.");
+      })
+    });
+    if (!res.ok) throw new Error(`AI error (${res.status})`);
+    const data = await res.json();
+    const text = (data.choices?.[0]?.message?.content || '').trim();
+    if (!text) throw new Error('Empty AI response');
+    return text;
   }
-
-  return text.trim();
-}
 
   async function aiVision(imageUrl, prompt) {
     let imgContent;
