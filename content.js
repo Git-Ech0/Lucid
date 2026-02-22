@@ -400,7 +400,7 @@
     const sel  = window.getSelection();
     const text = sel?.toString().trim();
     if (!text) { toast('Select some text first, then right-click.', 'warning'); return; }
-    if (text.length > 12000) { toast('Selection too long — try a shorter passage.', 'warning'); return; }
+    if (text.length > 36000) { toast('Selection too long — try a shorter passage.', 'warning'); return; }
 
     const range   = sel.getRangeAt(0);
     const startEl = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
