@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Lucid \u2013 Web Accessibility",
-  "version": "1.1.0",
-  "description": "Accessibility tools for every website with keyless AI assistance (no API key).",
+  "version": "1.1.1",
+  "description": "Dyslexia, contrast, color-blind, motion, and keyless AI accessibility tools for any website.",
   "permissions": [
     "activeTab",
     "scripting",

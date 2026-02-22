@@ -1,25 +1,25 @@
 # ♿ Lucid — Web Accessibility Extension
 
-> Accessibility tools for any website, with built-in keyless AI helpers.
+> Accessibility tools for any website, plus keyless AI actions.
 
-Lucid is a Chrome extension that lets users quickly adapt site readability, visibility, and interaction comfort without requiring websites to implement anything.
+Lucid is a Chrome extension that helps users adapt readability, contrast, interaction targets, and motion on any page without requiring site-side integration.
 
-## ✨ Current Feature Set
+## ✨ Current Features (Accurate)
 
-### Tools tab (toggle features)
+### Tools tab (toggles)
 
-- **Dyslexia Font** — improved letter/word spacing and line height
-- **Reading Ruler** — tracking bar that follows cursor movement
-- **Highlight Links** — stronger visual link affordances
-- **High Contrast** — high-contrast page theming
-- **Large Text** — global page text scaling
-- **Color Blind Mode** — deuteranopia/protanopia/tritanopia simulation filters
-- **Element Remover** — click elements to hide and persist removals per page
-- **Big Click Targets** — expands interactive hit areas
-- **Page Outline** — floating headings navigator
-- **Stop Animations** — suppresses transitions/animations and autoplay motion
+- **Dyslexia Font** — improves spacing/line-height for easier reading
+- **Reading Ruler** — cursor-following guide bar
+- **Highlight Links** — stronger visual affordance for anchors
+- **High Contrast** — high-contrast page styling
+- **Large Text** — global text scaling
+- **Color Blind Mode** — deuteranopia/protanopia/tritanopia filters
+- **Element Remover** — hide selected elements with per-page persistence
+- **Big Click Targets** — increases interactive hit area sizes
+- **Page Outline** — floating heading navigator
+- **Stop Animations** — reduces transitions/autoplay motion
 
-### AI context-menu tools
+### AI context-menu actions
 
 - **Simplify selected text**
 - **Explain selected text**
@@ -29,19 +29,21 @@ Lucid is a Chrome extension that lets users quickly adapt site readability, visi
 - **Describe image**
 - **Help fill form fields**
 
-## 🤖 AI Provider Behavior (Current)
+## 🤖 AI Integration (Current)
 
-- No API key required.
-- Lucid uses **Pollinations** via the OpenAI-compatible endpoint with model `openai`.
-- Image-description also uses Pollinations with model `openai`.
+- Provider: **Pollinations**
+- Endpoint: OpenAI-compatible Pollinations chat endpoints
+- Model: **`openai`** (this is the corrected model in use)
+- API key: **not required**
 
-## 🧩 Other capabilities
+## ⚙️ Settings / Behavior
 
-- **Per-feature keyboard shortcuts** (`Alt+Shift+<key>`) configurable in Settings
-- **Theme mode**: Dark / Light popup
-- **Feature visibility controls** to hide tools from the popup UI
-- **Global reset** for extension settings
-- **Persistent state** across tabs/pages via `chrome.storage.local`
+- Per-feature keyboard shortcuts (`Alt+Shift+<key>`) configurable in Settings
+- Popup theme mode: Dark / Light
+- Feature visibility controls (hide tools in popup)
+- Reading level and read-aloud speed controls
+- Global reset of extension settings
+- State persistence via `chrome.storage.local`
 
 ## 🚀 Installation
 
@@ -56,8 +58,8 @@ Lucid is a Chrome extension that lets users quickly adapt site readability, visi
 - `background.js` — context menus, startup/install lifecycle, message dispatch
 - `content.js` — page-side feature engine + AI handlers
 - `content.css` — injected base styles
-- `popup.html` / `popup.js` — extension popup UI + state controls
-- `welcome.html` — first-install landing screen
+- `popup.html` / `popup.js` — popup UI + state controls
+- `welcome.html` — first-install onboarding page
 
 ## 📄 License
 
