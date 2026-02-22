@@ -342,24 +342,61 @@
     `);
   }
 
-  // ─── AI — Pollinations with openai-large ─────────────────────────────────
+  // ─── AI — Pollinations (single provider) ──────────────────────────────────
+  function extractOpenAIContent(content) {
+    if (typeof content === 'string') return content.trim();
+    if (Array.isArray(content)) {
+      return content.map(part => {
+        if (typeof part === 'string') return part;
+        if (part?.type === 'text') return part.text || '';
+        return '';
+      }).join('').trim();
+    }
+    return '';
+  }
+
+  async function pollinationsChat(messages, model = 'openai') {
+    const endpoints = [
+      'https://text.pollinations.ai/openai',
+      'https://text.pollinations.ai/v1/chat/completions'
+    ];
+
+    const failures = [];
+
+    for (const url of endpoints) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model, messages })
+        });
+
+        if (!res.ok) {
+          failures.push(`${url} -> HTTP ${res.status}`);
+          continue;
+        }
+
+        const data = await res.json();
+        const text = extractOpenAIContent(data?.choices?.[0]?.message?.content);
+        if (!text) {
+          failures.push(`${url} -> empty choices[0].message.content`);
+          continue;
+        }
+
+        return text;
+      } catch (err) {
+        failures.push(`${url} -> ${err.message}`);
+      }
+    }
+
+    throw new Error(`Pollinations endpoints failed: ${failures.join('; ')}`);
+  }
+
   async function ai(system, userContent) {
-    const res = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'openai-large',
-        messages: [
-          { role: 'system', content: system },
-          { role: 'user',   content: userContent }
-        ]
-      })
-    });
-    if (!res.ok) throw new Error(`AI error (${res.status})`);
-    const data = await res.json();
-    const text = (data.choices?.[0]?.message?.content || '').trim();
-    if (!text) throw new Error('Empty AI response');
-    return text;
+    return await pollinationsChat([
+      { role: 'system', content: system },
+      { role: 'user', content: userContent }
+    ], 'openai');
   }
 
   async function aiVision(imageUrl, prompt) {
@@ -378,20 +415,10 @@
       imgContent = { type:'image_url', image_url:{ url: imageUrl } };
     }
 
-    const res = await fetch('https://text.pollinations.ai/openai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'openai',   // vision requires base model
-        messages: [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }],
-        max_tokens: 300
-      })
-    });
-    if (!res.ok) throw new Error(`Vision error (${res.status})`);
-    const data = await res.json();
-    const text = (data.choices?.[0]?.message?.content || '').trim();
-    if (!text) throw new Error('No description returned');
-    return text;
+    return await pollinationsChat(
+      [{ role:'user', content:[{ type:'text', text: prompt }, imgContent] }],
+      'openai'
+    );
   }
 
   // ─── AI ON SELECTION ─────────────────────────────────────────────────────
