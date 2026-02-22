@@ -40,5 +40,13 @@ CUSTOMIZATIONS:
 This script uses Pollinations AI for its completely free AI powered capabilities. You can find out more at https://pollinations.ai/.
 
 Languages: JavaScript, HTML, and CSS.
-Project format: Browser Extension
-Time to complete: 7.25 hours
+Project Format: Browser Extension
+Time to Complete: 7.25 hours
+
+How to Install:
+Download as .zip -->
+Move the inner folder out next to the .zip and delete the .zip folder -->
+Navigate to chrome://extensions (or the same for your browser) -->
+Make sure developer mode is on: Click "load unpacked" -->
+Select the folder -->
+Done
