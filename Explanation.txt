@@ -1,0 +1,35 @@
+The purpose of this extension is to provide internet users with disabilities an ease of usage to enhance their everyday browsing experience. Features include the following:
+REGULAR TOOLS:
+
+ - Dyslexia Font: Improves font and spacing for almost all text on every webpage. Makes reading easier, especially for the dyslexic.
+ - Reading Ruler: Makes it easier to track which line you're on while reading text on a page, built for people primarily with dyslexia and ADHD.
+ - Highlight Links: Clearly displays linked text fields for those with cognitive and vision disabilities.
+ - High Contrast: Makes web pages more clear for those with low vision.
+ - Large Text: Makes text easier to read for those with low vision and dyslexia.
+ - Color Blind Mode: Filters the webpage to make it easier to view for three different types of colorblind categories, including deutan, protan, and tritan.
+ - Element Remover: Makes it very easy to remove any element on the web page with just a click of a button. Good for people with ADHD, low vision, and epilepsy. Includes a reset button for the individual webpage.
+ - Big Click Targets: Enlarges buttons and clickable fields for those with low vision or mobility disabilities.
+ - Page Outline: Allows easy automatic page navigation for different sections. Good for people with cognitive disabilities.
+ - Stop Animations: Allows an instant toggle switch for any type of GIF or constant animation on a web page to be turned off. Good for people with ADHD and epilepsy.
+
+AI TOOLS (Cognitive Disabilities, displayed directly on the webpage):
+
+ - Simplify text: Allows you to select text, right click, and use AI to simplify it.
+ - Explain text: Allows you to select text, right click, and use AI to provide context.
+ - Translate English to English: Allows you to select text, right click, and use AI to translate to simplified English dialect.
+ - Read Aloud: Allows you to select text, right click, and use TTS (Text to Speech) to turn it into audio. Specifically designed for the low vision, blindness, ADHD, and dyslexia.
+ - Summarize Page: Allows you to right click and use AI to summarize all of the combined data on the webpage.
+ - Describe Image: Allows you to right click an image and get an AI description. Works only on sites that do not block cross-origin network requests by default.
+ - Form Fill Help: Allows you to right click a text field in a form and get AI help on what to fill in.
+
+CUSTOMIZATIONS:
+
+ - Simplify Level: Allows you to change how simplified the AI makes text.
+ - Read Aloud Speed: Allows you to change how fast/slow the Read Aloud reads.
+ - Dark/Light Mode: Allows you to toggle dark and light mode for all UI.
+ - Dyslexia-Friendly Text Spacing: Allows you to change the spacing of dyslexia-friendly text.
+ - Font Scale: Allows you to change the scale at which the large text feature increases the original size by.
+ - Shortcuts: Allows you to add and change shortcuts for each individual feature.
+ - Visible Features: Allows you to change which features are visible on the main menu page.
+ - Element Remover Reset: Allows you to reset all the element removal data for every webpage.
+ - Reset All: Allows you to reset every customization metric.
