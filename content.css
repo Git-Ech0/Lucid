@@ -1,0 +1,7 @@
+/* ClearPath base injected stylesheet */
+/* Most styles are injected dynamically by content.js */
+/* This file intentionally minimal */
+
+.clearpath-simplified {
+  display: inline;
+}
