@@ -32,9 +32,9 @@ Lucid is a Chrome extension that lets users quickly adapt site readability, visi
 ## 🤖 AI Provider Behavior (Current)
 
 - No API key required.
-- Lucid uses **DuckDuckGo AI (`gpt-4o-mini`) as primary** for text tasks.
-- Lucid falls back to **Pollinations (`openai`)** if the primary provider fails.
-- Image-description flow currently uses the Pollinations helper path.
+- Lucid uses **Pollinations** with an OpenAI-compatible endpoint and model fallback chain (`openai` → `openai-fast` → `llama`).
+- If those model calls fail, Lucid falls back to the plain text Pollinations endpoint.
+- Image-description uses Pollinations vision-compatible model fallback (`openai` → `openai-fast`).
 
 ## 🧩 Other capabilities
 
