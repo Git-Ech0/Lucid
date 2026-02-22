@@ -524,7 +524,7 @@
     try {
       const desc = await aiVision(
         srcUrl,
-        'Write a clear, specific alt-text description of this image for a visually impaired user. Describe exactly what is visible: subjects, actions, colors, text in the image, setting. Use direct declarative sentences. Do not write "I see", "I think", "it appears", "it looks like", "it seems", or similar hedging phrases. 2-4 sentences.'
+        'Write a clear, specific alt-text description of this image for a visually impaired user. Describe exactly what is visible: subjects, actions, colors, text in the image, setting. Use direct declarative sentences. Do not write "I see", "I think", "it appears", "it looks like", "it seems", or similar hedging phrases. 2-4 sentences. If there is not enough available information, do not speak in first person, just state that the website denied permission to use the image.'
       );
       document.getElementById('lc-toast')?.remove();
       showPanel('Image Description', esc(desc));
