@@ -1,3 +1,5 @@
+IMPORTANT: This project was not created using MeDo.
+
 The purpose of this extension is to provide internet users with disabilities an ease of usage to enhance their everyday browsing experience. Features include the following:
 
 REGULAR TOOLS:
