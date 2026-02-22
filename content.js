@@ -344,7 +344,7 @@
 
   // ─── AI — Pollinations with openai-large ─────────────────────────────────
   async function aiVision(imageUrl, prompt) {
-  const endpoint = 'https://gen.pollinations.ai/v1/chat/completions';
+  const endpoint = 'https://text.pollinations.ai/v1/chat/completions';
   const payload = {
     model: 'openai',
     messages: [
