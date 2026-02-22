@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Lucid – Web Accessibility",
   "version": "1.0.0",
-  "description": "AI-powered accessibility for every website. Dyslexia, ADHD, low vision, epilepsy support, and more.",
+  "description": "AI-powered accessibility for every website. Dyslexia, ADHD, low vision, color blindness, and more.",
   "permissions": ["activeTab", "scripting", "storage", "tabs", "contextMenus"],
   "host_permissions": ["<all_urls>"],
   "icons": {
